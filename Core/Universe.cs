@@ -123,5 +123,5 @@ public class Universe : IUniverse
         }
     }
 
-    internal IUniverseSnapshot Save() => new Snapshot(this);
+    public IUniverseSnapshot Save() => new Snapshot(this);
 }

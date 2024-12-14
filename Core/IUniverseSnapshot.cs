@@ -1,6 +1,6 @@
 namespace Core;
 
-internal interface IUniverseSnapshot
+public interface IUniverseSnapshot
 {
     public void Restore();
 }

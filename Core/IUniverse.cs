@@ -1,6 +1,6 @@
 namespace Core;
 
-internal interface IUniverse
+public interface IUniverse
 {
     public int Height { get; }
     public int Width { get; }
