@@ -7,5 +7,5 @@ public interface IUniverse
     public int Born { get; }
     public int Died { get; }
     public int Generation { get; }
-    public bool this[int y, int x] { get; }
+    public bool this[int y, int x] { get; set; }
 }

@@ -6,15 +6,14 @@ public class UniverseManagerTests
     [Test]
     public void TestMoveForward__UpdatesUniverse()
     {
-        var u = new Universe(10, 10);
-        u[1, 1] = true;
-        u[1, 2] = true;
-        u[1, 3] = true;
-        var m = new UniverseManager(u);
+        var m = new UniverseManager(10, 10);
+        m[1, 2] = true;
+        m[1, 1] = true;
+        m[1, 3] = true;
         m.MoveForward();
-        Assert.That(u[0, 2], Is.True);
-        Assert.That(u[1, 2], Is.True);
-        Assert.That(u[2, 2], Is.True);
+        Assert.That(m[0, 2], Is.True);
+        Assert.That(m[1, 2], Is.True);
+        Assert.That(m[2, 2], Is.True);
         for (int j = 0; j < m.Height; j++)
         {
             for (int i = 0; i < m.Width; i++)
@@ -23,7 +22,7 @@ public class UniverseManagerTests
                 {
                     continue;
                 }
-                Assert.That(u[j, i], Is.False);
+                Assert.That(m[j, i], Is.False);
             }
         }
         Assert.That(m.Born, Is.EqualTo(5));
@@ -33,22 +32,21 @@ public class UniverseManagerTests
     [Test]
     public void TestMoveBackward_SnapshotDoesntExist_ThrowsInvalidOperationException()
     {
-        var m = new UniverseManager(new Universe(10, 10));
+        var m = new UniverseManager(10, 10);
         Assert.Throws<InvalidOperationException>(m.MoveBackward);
     }
     [Test]
     public void TestMoveBackward__RestoresUniverse()
     {
-        var u = new Universe(10, 10);
-        u[1, 1] = true;
-        u[1, 2] = true;
-        u[1, 3] = true;
-        var m = new UniverseManager(u);
+        var m = new UniverseManager(10, 10);
+        m[1, 1] = true;
+        m[1, 2] = true;
+        m[1, 3] = true;
         m.MoveForward();
         m.MoveBackward();
-        Assert.That(u[1, 1], Is.True);
-        Assert.That(u[1, 2], Is.True);
-        Assert.That(u[1, 3], Is.True);
+        Assert.That(m[1, 1], Is.True);
+        Assert.That(m[1, 2], Is.True);
+        Assert.That(m[1, 3], Is.True);
         for (int j = 0; j < m.Height; j++)
         {
             for (int i = 0; i < m.Width; i++)
@@ -57,11 +55,23 @@ public class UniverseManagerTests
                 {
                     continue;
                 }
-                Assert.That(u[j, i], Is.False);
+                Assert.That(m[j, i], Is.False);
             }
         }
         Assert.That(m.Born, Is.EqualTo(3));
         Assert.That(m.Died, Is.EqualTo(0));
         Assert.That(m.Generation, Is.EqualTo(0));
+    }
+    [Test]
+    public void TestSetCellStatus_SnapshotsExist_RemovesSnapshots()
+    {
+        var m = new UniverseManager(10, 10);
+        m[1, 1] = true;
+        m[1, 2] = true;
+        m[1, 3] = true;
+        m.MoveForward();
+        m.MoveForward();
+        m[1, 0] = true;
+        Assert.Throws<InvalidOperationException>(m.MoveBackward);
     }
 }
