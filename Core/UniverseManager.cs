@@ -39,4 +39,6 @@ public class UniverseManager : IUniverse
         Snapshots[Snapshots.Count - 1].Restore();
         Snapshots.RemoveAt(Snapshots.Count - 1);
     }
+
+    public bool CanMoveBackward() => Snapshots.Count != 0;
 }
